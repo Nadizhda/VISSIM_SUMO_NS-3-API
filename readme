@@ -5,7 +5,9 @@ VISSIM traffic data can be txt file or csv file.
 SUMO file is the converted to xml file after extracting the traffic data using OSM.
 
 To run the API:
+
 1- select the traffic simulator and update the input files.
+
 2- Run ./API
 
 Two resulting files are uploaded in the TCL format.
