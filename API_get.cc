@@ -1,14 +1,13 @@
-// Create the API for the conversion of the VISSIM and SUMO traffic data to NS-3 traffic data.
+// Create the API for the conversion of SUMO and VISSIM data to NS-3 traffic data  
 
-// Include the required libraries
+//Include libraies.
 
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <iomanip>
 #include <cstdio>
-
-// Use the standard libraries
+#include <algorithm>
 
 using namespace std;
 
@@ -28,18 +27,25 @@ using namespace std;
      if (!infile.is_open() || !outfile.is_open()) 
      {
         std::cerr << "Error opening file!" << std::endl;
+        
        // return 1;
      }
      
     double SimTime, SimTime1, speed, Xcoord, Ycoord,xy1,xy2, Zcoord = 1.6;
     
     int nodeid1, i = 0, x = 0;
+    
 
     // Skip the first line
     std::getline(infile, line);
 
     while (std::getline(infile, line)) {
     
+        
+        std::replace(line.begin(), line.end(), ',', ' ');  // Replace all ',' with ' ' for the CSV file 
+        
+       // std::cout << line << std::endl;
+        
         std::istringstream iss(line);
         
         // ws : white space to ignore the column corresponding to the ws position
@@ -51,7 +57,7 @@ using namespace std;
             continue;  // Skip malformed lines
         }
 
-       i++;  // Increment counter
+       i++;  
 
  
        int node_index = nodeid1 -1;
@@ -84,14 +90,17 @@ using namespace std;
             
         }
     infile.close();
+   
     outfile.close();
   
   }
   
   
-  // Define  a global directory of the tools folder in the SUMO folder.
+  // Define  a global directory of the tools folder/ SUMO folder.
   
-  std::string sumo_directory = "./sumo/tools";
+  std::string sumo_directory = "./sumo/tools"; // Update it based on your directory
+
+
   /* 
   * Brief method to convert the SUMO input file to a tcl file.
   * The method first determines the most recent folder in the global directory.
@@ -100,12 +109,19 @@ using namespace std;
   
 int main(int argc, char *argv[]) {
 
-    std ::string Simulator_name = "SUMO";
-    // Add the file directory where the csv file of the VISSIM output , you can use txt file also.
-    std:: string VISSIM_file = "VISSIM_data.xlsx";
-    std:: string first_dir = "Directory to the osm.sumocfg file";
-    std:: string second_dir = "Directory to the trace.xml file";
-    std:: string third_dir = "Directory to the traceExporter.py file";
+    std ::string Simulator_name = "VISSIM"; // VISSIM or SUMO
+    
+    // Add the file directory where the csv file of the VISSIM output, you can use txt file also.
+    std:: string VISSIM_file = "./Mobility.csv"; // CSV file, VISSIM simulator 
+ 
+    //Please replace D by the directory to the osm.sumocfg for the scenario you generate using OSM
+    std:: string Dir1 = " D/osm.sumocfg --fcd-output trace.xml"; std:: string 
+ 
+    //Please replace D1 by the directory to the traceExporter.py file. 
+ 
+    std:: string Dir2 =  "D1/traceExporter.py"; 
+  //Please replace D3 by the directory to the trace.xml file.
+    std:: string Dir3 =  "D2/trace.xml"
     
     
 
@@ -115,9 +131,9 @@ int main(int argc, char *argv[]) {
     
         std::string outputDir2 = "./sumo/tools/";  // SUMO input file directory 
     
-        std::string infile = "mobility.txt";
+        std::string infile = VISSIM_file;
     
-        std::string filename  = "Test";
+        std::string filename  = "Test_VISSIM";
     
         std::string outfile = outputDir1+ filename+ ".tcl";
         
@@ -128,8 +144,14 @@ int main(int argc, char *argv[]) {
     else if (Simulator_name == "SUMO")
     
     {
+    /*
+     *
+     * Make sure that the pip command is written as follows:
+     * CMD = "sumo -c D/osm.sumocfg --fcd-output trace.xml"
+     * Make sure to pass CMD the string into the popen without segmnting it.  
+    */
  
-    FILE* pipe = popen(" sumo -c" + first_dir +" osm.sumocfg --fcd-output trace.xml", "r");
+    FILE* pipe = popen(CMD, "r");
     
     if (!pipe) 
     {
@@ -138,12 +160,19 @@ int main(int argc, char *argv[]) {
     }
     
    pclose(pipe);
+
+             
+    /*
+     *
+     * Make sure that the pip command is written as follows:
+     * CMD1 = "python Dir2 -i  Dir3 --ns2mobility-output=Test_SUMO.tcl"
+     * Please make sure to pass CMD1 without segmnting it into the popen.  
+    */
    
-   int  pipe2 = system (" python" + third_dir + "/traceExporter.py -i" +second_dir+ "trace.xml --ns2mobility-output=mobility9.tcl");
+   int  pipe2 = system (CMD1);
      
     }
-
-
+ 
    /* CommandLine cmd (__FILE__);
     
     cmd.AddValue ("infile",
@@ -153,10 +182,7 @@ int main(int argc, char *argv[]) {
                  "tcl file name ",
                  infile);
     */
-    
-    
-    
+
    // std::cout << "Output written to"+outfile<< std::endl;
     return 0;
 }
-
