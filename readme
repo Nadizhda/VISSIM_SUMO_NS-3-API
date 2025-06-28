@@ -1,5 +1,5 @@
-#The API is build for the VISSIM and SUMO simlators 
-# VISSIM traffic data can be txt file or csv file.
+The API is build for the VISSIM and SUMO simlators 
+VISSIM traffic data can be txt file or csv file.
 # SUMO file is the converted to xml file after extracting the traffic data using OSM
 # To run the file use:
 # ./API
