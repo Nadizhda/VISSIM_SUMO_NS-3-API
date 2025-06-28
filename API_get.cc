@@ -1,5 +1,6 @@
-// Create the API for the conversion of the 
+// Create the API for the conversion of the VISSIM and SUMO traffic data to NS-3 traffic data.
 
+// Include the required libraries
 
 #include <iostream>
 #include <fstream>
@@ -7,7 +8,8 @@
 #include <iomanip>
 #include <cstdio>
 
-//#include <Python.h>
+// Use the standard libraries
+
 using namespace std;
 
  /* 
@@ -99,10 +101,11 @@ using namespace std;
 int main(int argc, char *argv[]) {
 
     std ::string Simulator_name = "SUMO";
-    std:: string VISSIM_file = "VISSIM_data.xlsx" // Add the file directory where the csv file of the VISSIM output , you can use txt file also.
-    std:: string first_dir = "Directory to the osm.sumocfg file"
-    std:: string second_dir = "Directory to the trace.xml file"
-    std:: string third_dir = "Directory to the traceExporter.py file"
+    // Add the file directory where the csv file of the VISSIM output , you can use txt file also.
+    std:: string VISSIM_file = "VISSIM_data.xlsx";
+    std:: string first_dir = "Directory to the osm.sumocfg file";
+    std:: string second_dir = "Directory to the trace.xml file";
+    std:: string third_dir = "Directory to the traceExporter.py file";
     
     
 
@@ -114,7 +117,7 @@ int main(int argc, char *argv[]) {
     
         std::string infile = "mobility.txt";
     
-        std::string filename  = "T";
+        std::string filename  = "Test";
     
         std::string outfile = outputDir1+ filename+ ".tcl";
         
@@ -136,7 +139,7 @@ int main(int argc, char *argv[]) {
     
    pclose(pipe);
    
-   int  pipe2 = system (" python" + third_direct + "/traceExporter.py -i" +second_dir+ "trace.xml --ns2mobility-output=mobility9.tcl");
+   int  pipe2 = system (" python" + third_dir + "/traceExporter.py -i" +second_dir+ "trace.xml --ns2mobility-output=mobility9.tcl");
      
     }
 
