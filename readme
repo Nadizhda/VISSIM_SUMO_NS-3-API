@@ -3,3 +3,6 @@
 # SUMO file is the converted to xml file after extracting the traffic data using OSM
 # To run the file use:
 # ./API
+# Two resulting files are uploaded in the TCL format.
+# Test_VISSIM.tcl is a traffic data from VISSIM and the Test_SUMO.tcl is the traffic data from SUMO.
+
