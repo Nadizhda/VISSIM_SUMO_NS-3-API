@@ -100,12 +100,6 @@ using namespace std;
   
   std::string sumo_directory = "./sumo/tools"; // Update it based on your directory
 
-
-  /* 
-  * Brief method to convert the SUMO input file to a tcl file.
-  * The method first determines the most recent folder in the global directory.
-  * Then it converts the osm configure file to a trace.xml file.
-  */ 
   
 int main(int argc, char *argv[]) {
 
